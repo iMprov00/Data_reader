@@ -17,7 +17,7 @@ class WorkWithFiles
       student = 
       {
         group: row['Группа'],
-        name: "#{row['Имя'] row['Фамилия']}",
+        name: "#{row['Имя']} #{row['Фамилия']}",
         grades: 
         {
           math: row['Математика'],
@@ -28,7 +28,31 @@ class WorkWithFiles
         }
       }
       @students << student
+    end
   end
 end
 
+class ShowAll
+  def initialize
+    @students = WorkWithFiles.new.students
+  end
+
+  def show_students
+    group = ''
+    @students.each do |g|
+      if group != g[:group]
+        puts "Группа: #{g[:group]}"
+        @students.each do |value|
+          puts "#{value[:name]}, #{value[:grades][:math]}"
+        end
+        puts "============="
+        group = g[:group]
+      end 
+    end
+  end
+end
+
+show_all = ShowAll.new
+
+show_all.show_students
 
