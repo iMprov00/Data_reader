@@ -32,10 +32,15 @@ class WorkWithFiles
   end
 end
 
-class ShowAll
-  def initialize
-    @students = WorkWithFiles.new.students
+class StatisticsBase
+  attr_reader :students
+  
+  def initialize(students)
+    @students = students
   end
+end
+
+class ShowAll < StatisticsBase
 
   def show_students
     group = ''
@@ -52,7 +57,11 @@ class ShowAll
   end
 end
 
-show_all = ShowAll.new
+
+data_loader = WorkWithFiles.new
+students = data_loader.students
+
+show_all = ShowAll.new(students)
 
 show_all.show_students
 
