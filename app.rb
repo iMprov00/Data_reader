@@ -57,11 +57,89 @@ class ShowAll < StatisticsBase
   end
 end
 
+class TotalScoreStatistics < StatisticsBase
+  # Общий балл каждого студента
+  def calculate
+    puts "Общий балл студентов"
+
+    score = Array.new
+
+    @students.each do |value|
+      grades = value[:grades]
+
+      score << grades[:math].to_i
+      score << grades[:physics].to_i
+      score << grades[:history].to_i
+      score << grades[:literature].to_i
+      score << grades[:literature].to_i
+
+      puts "#{value[:name]}: #{score.sum}"
+
+      score.clear
+    end #end each
+  end
+end
+
+class SubjectAverageStatistics < StatisticsBase
+  # Средние баллы по предметам
+  def calculate
+    puts "Средний балл студентов"
+
+    score = Array.new
+
+    @students.each do |value|
+      grades = value[:grades]
+
+      score << grades[:math].to_i
+      score << grades[:physics].to_i
+      score << grades[:history].to_i
+      score << grades[:literature].to_i
+      score << grades[:literature].to_i
+
+      puts "#{value[:name]}: #{score.sum / score.size}"
+
+      score.clear
+    end #end each
+  end
+end
+
+class TopStudentsStatistics < StatisticsBase
+  # Топ-5 студентов по общему баллу
+  def calculate
+
+  end
+end
+
+class SubjectLeadersStatistics < StatisticsBase
+  # Лучшие студенты по каждому предмету
+  def calculate
+
+  end
+end
+
+class StatisticsFactory
+
+  def self.create(type, students)
+    case type
+    
+    when :total_score then TotalScoreStatistics.new(students)
+
+    when :subject_score then SubjectAverageStatistics.new(students)
+      
+    end #end case
+  end
+end
 
 data_loader = WorkWithFiles.new
 students = data_loader.students
 
 show_all = ShowAll.new(students)
 
-show_all.show_students
+total_score = StatisticsFactory.create(:total_score, students) 
+subject_score = StatisticsFactory.create(:subject_score, students)
 
+total_score.calculate
+
+puts
+
+subject_score.calculate
